@@ -94,14 +94,11 @@ function App() {
        setCities(tempCity); */
 
     /* or even shorter */
+    e.currentTarget.value && setCities(await getCities(e.currentTarget.value));
 
-    setCities(await getCities(e.currentTarget.value));
+    /*  e.currentTarget.value &&  .. to prevent to getCities if the e.currentTarget.value was not set */
 
   };
-
-
-
-
 
 
   const handleCity = (e) => {
@@ -157,19 +154,25 @@ function App() {
 
       </div>
 
+
       {/* here we read the cities from the country abbreviation  
       in the select statement and then in the showCities function 
       we show the result the terminal */}
-      <div>
-        <label >Choose a City</label>
-        <select onChange={handleCity}>
-          <option value="">Select</option>
-          {
-            cities.map(city => <option key={city.id} value={city.name} >{city.name}</option>)
-          }
-        </select>
 
-      </div>
+      {/*  create a short circuit for conditional rendering */}
+      {cities.length > 0 && (
+
+        <div>
+          <label >Choose a City</label>
+          <select onChange={handleCity}>
+            <option value="">Select</option>
+            {
+              cities.map(city => <option key={city.id} value={city.name} >{city.name}</option>)
+            }
+          </select>
+        </div>
+      )
+      }
 
 
       {/* 
