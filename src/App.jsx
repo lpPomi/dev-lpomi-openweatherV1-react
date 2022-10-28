@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import TestGetData from './components/TestGetData';
 import SelectGetData from './components/SelectGetData';
 import { getCountries } from './services/getCountries';
+import { getCities } from './services/getCities';
 
 import { useEffect, useState } from 'react';
 
@@ -41,11 +42,17 @@ function App() {
       //console.log("🚀 ~ file: App.jsx ~ line 40 ~ countries", countries);
 
       /* 
-            here we store the countries in countries 
+            here we store the countries and cities  
             setCountriesData(countries);  
             or so
        */
       setCountries(await getCountries());
+
+      //  setCities(await getCities());
+      /* here we search only for the cities */
+      /*  const tempCity = await getCities();
+       console.log("🚀 ~ file: App.jsx ~ line 54 ~ tempCity", tempCity); */
+
 
     })(); // function autoinvocation
   }, []);
@@ -53,25 +60,61 @@ function App() {
   /*   this console.log must be after the  useEffect(() */
   //console.log("🚀 ~ file: App.jsx ~ line 54 ~ countries", countries);
 
+  /*   this console.log must be after the  useEffect(() */
+  //console.log("🚀 ~ file: App.jsx ~ line 54 ~ cities", cities);
+
+
+
 
   /*  this function read the select field in the event e*/
-  const handleCountry = (e) => {
+  const handleCountry = async (e) => {
     e.preventDefault();
 
 
     /* we set a constant  */
-    const countryAbreviation = e.currentTarget.value;
-    console.log("🚀 currentTarget value: ", countryAbreviation);
+    /*  const countryAbreviation = e.currentTarget.value;
+     console.log("🚀 currentTarget country ab. value: ", countryAbreviation); */
 
     /*  or here we show the value from select statement */
     /*    console.log("🚀 target value: ", e.target.value); */
 
 
-    // sort1(e.target.value); open !
+    /*  here we get the cities */
+    /* const tempCity = await getCities(countryAbreviation);
+    console.log("🚀 ~ file: App.jsx ~ line 84 ~ tempCity", tempCity); */
 
-    /* clear the city input field */
-    //setCountries('');
+    /*  setCities(tempCity); */
+
+    /*    or directly in one command */
+
+
+    /*    const tempCity = await getCities(e.currentTarget.value);
+       console.log("🚀 ~ file: App.jsx ~ line 84 ~ tempCity", tempCity);
+   
+       setCities(tempCity); */
+
+    /* or even shorter */
+
+    setCities(await getCities(e.currentTarget.value));
+
   };
+
+
+
+
+
+
+  const handleCity = (e) => {
+    e.preventDefault();
+
+    // we set a constant  
+    const city = e.currentTarget.value;
+    console.log("🚀 currentTarget city value: ", city);
+  };
+
+
+
+
 
   /* 
     function sort1(countries) {
@@ -113,6 +156,22 @@ function App() {
         </select>
 
       </div>
+
+      {/* here we read the cities from the country abbreviation  
+      in the select statement and then in the showCities function 
+      we show the result the terminal */}
+      <div>
+        <label >Choose a City</label>
+        <select onChange={handleCity}>
+          <option value="">Select</option>
+          {
+            cities.map(city => <option key={city.id} value={city.name} >{city.name}</option>)
+          }
+        </select>
+
+      </div>
+
+
       {/* 
       <button onClick={sort1}>
         sort
