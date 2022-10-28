@@ -3,42 +3,90 @@ import TestGetData from './components/TestGetData';
 import SelectGetData from './components/SelectGetData';
 import { getCountries } from './services/getCountries';
 
-
-
 import { useEffect, useState } from 'react';
 
 function App() {
 
-  const url1 = 'https://restcountries.com/v3.1/all';
+  /*   const url1 = 'https://restcountries.com/v3.1/all'; */
 
   // this line was moved to the to tools/ajax.js
   //const ajax = () => axios.request().then((response) => response.data);
 
-
-  // create the useState variable countries to save the countries
+  // create the useState variable countries to save all countries
   const [countries, setCountries] = useState([]);
 
+  // create the useState variable cities to save all cities
+  const [cities, setCities] = useState([]);
 
 
 
   useEffect(() => {
+    /* 
+     moved to services/getCountries   
     const options = {
       method: 'GET',
       url: url1
-    };
+    }; */
     (async () => {
       /* 
-      this line was move to the <services />
+      this line was move to the services/getCountries
       <getCountries className="js"></getCountries>const countries = await ajax(options);
-       */
-      const countries = await getCountries(options);
-      console.log("🚀 ~ file: App.jsx ~ line 24 ~ countries", countries);
 
-      /*   here we store the countries in countries */
-      setCountries(countries);
+      and 
+      const countries = await getCountries(options);
+      to
+      const countries = await getCountries();
+       */
+
+      //console.log("🚀 ~ file: App.jsx ~ line 40 ~ countries", countries);
+
+      /* 
+            here we store the countries in countries 
+            setCountriesData(countries);  
+            or so
+       */
+      setCountries(await getCountries());
 
     })(); // function autoinvocation
   }, []);
+
+  /*   this console.log must be after the  useEffect(() */
+  //console.log("🚀 ~ file: App.jsx ~ line 54 ~ countries", countries);
+
+
+  /*  this function read the select field in the event e*/
+  const handleCountry = (e) => {
+    e.preventDefault();
+
+
+    /* we set a constant  */
+    const countryAbreviation = e.currentTarget.value;
+    console.log("🚀 currentTarget value: ", countryAbreviation);
+
+    /*  or here we show the value from select statement */
+    /*    console.log("🚀 target value: ", e.target.value); */
+
+
+    // sort1(e.target.value); open !
+
+    /* clear the city input field */
+    //setCountries('');
+  };
+
+  /* 
+    function sort1(countries) {
+      countries.sort();
+      console.log("🚀 ~ file: App.jsx ~ line 66 ~ sort1 ~ countries", countries);
+    }
+   */
+  {/* copy the content from the array countries into a new array countries1 */ }
+  /* const countries1 = new Map({ countries }); */
+
+  {/* sort Ascending (low to high) the array countries1 */ }
+  /* const sortedAsc = new Map([...countries1].sort());
+  console.log("🚀 ~ file: App.jsx ~ line 88 ~ App ~ sortedAsc", sortedAsc); */
+
+
 
 
 
@@ -50,6 +98,26 @@ function App() {
       <TestGetData />
 
       <SelectGetData /> */}
+
+      {/* here we read the country abbreviation country PP rom 
+      the select statement and then in the showCountry function 
+      we show the result the terminal */}
+      <div>
+        <label >Choose a Land</label>
+        <select onChange={handleCountry}>
+          <option value="">Select</option>
+
+          {
+            countries.map(country => <option key={country.cca2} value={country.cca2} >{country.name.common}</option>)
+          }
+        </select>
+
+      </div>
+      {/* 
+      <button onClick={sort1}>
+        sort
+      </button>
+ */}
 
     </div>
   );
