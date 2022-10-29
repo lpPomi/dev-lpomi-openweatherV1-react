@@ -12,7 +12,7 @@ export const getCities = async (countryAbreviation) => {
       'X-RapidAPI-Host': 'spott.p.rapidapi.com',
     },
     method: 'GET',
-    url: 'https://spott.p.rapidapi.com/places',
+    url: 'https://spott.p.rapidapi.com/places/autocomplete',
 
     params: {
       limit: 100,
